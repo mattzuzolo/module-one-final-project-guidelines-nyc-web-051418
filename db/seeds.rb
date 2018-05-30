@@ -2,7 +2,9 @@
 require_relative '../config/environment.rb'
 require_relative '../app/models/character.rb'
 require_relative '../app/models/title.rb'
+require_relative '../app/models/nickname.rb'
 require_relative '../app/models/house.rb'
+
 require 'pry'
 
 houses_url = "https://anapioficeandfire.com/api/houses"
@@ -22,7 +24,32 @@ parsed_response = response.parsed_response
     end
   end
 
-  make_character_array(parsed_response)
+
+
+  def make_character_bio_array(parsed_response)
+    parsed_response.each do |individual_character|
+      if individual_character["name"] != ""
+        Character.create(name: individual_character["name"], gender: individual_character["gender"], culture: individual_character["culture"], born: individual_character["born"], died: individual_character["died"])
+      end
+    end
+  end
+
+  def make_character_nickname_array(parsed_response)
+    parsed_response.each do |individual_character|
+      if individual_character["name"] != ""
+
+
+          individual_character.each do |nickname|
+              if nickname[0] == "aliases"
+                Nickname.create(aliases: nickname[1])
+              end
+          end
+        end
+    end
+  end
+
+  make_character_bio_array(parsed_response)
+  make_character_nickname_array(parsed_response)
 
 
 
