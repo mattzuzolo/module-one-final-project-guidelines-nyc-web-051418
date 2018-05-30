@@ -9,4 +9,5 @@ ActiveRecord::Base.logger = nil
 
 require_relative '../app/models/character.rb'
 require_relative '../app/models/title.rb'
+require_relative '../app/models/nickname.rb'
 require_relative '../app/models/house.rb'
