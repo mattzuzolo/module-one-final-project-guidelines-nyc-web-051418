@@ -6,7 +6,7 @@ require_relative '../app/models/house.rb'
 require 'pry'
 
 houses_url = "https://anapioficeandfire.com/api/houses"
-characters_url = "https://anapioficeandfire.com/api/characters"
+characters_url = "https://anapioficeandfire.com/api/characters?pageSize=1000"
 
 response = HTTParty.get(characters_url)
 parsed_response = response.parsed_response
@@ -14,9 +14,11 @@ parsed_response = response.parsed_response
 
   def make_character_array(parsed_response)
     parsed_response.each do |individual_character|
+
       # binding.pry
-      Character.create(name: "jon snow")
-      true
+      if individual_character["name"] != ""
+        Character.create(name: individual_character["name"])
+      end
     end
   end
 
