@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180530135146) do
+ActiveRecord::Schema.define(version: 2018_05_30_135146) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20180530135146) do
     t.string "currentLord"
   end
 
-  create_table "names", force: :cascade do |t|
+  create_table "nicknames", force: :cascade do |t|
     t.string "aliases"
   end
 

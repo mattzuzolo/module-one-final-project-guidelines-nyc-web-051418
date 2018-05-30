@@ -1,7 +1,15 @@
+# require 'sinatra/activerecord'
+# class Character < ActiveRecord::Base
+#
+#     has_many :titles
+#     belongs_to :houses
+#
+#
+# end
+
 class Character < ActiveRecord::Base
 
-    has_many :names
-    belongs_to :houses
-
+  # has_many :titles
+  # belongs_to :houses
 
 end
