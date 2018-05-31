@@ -1,6 +1,7 @@
 class Character < ActiveRecord::Base
   # belongs_to :house
   has_many :nicknames
+  has_one :house_member
 
   def self.get_character_names
     names = Character.all.map do |character|
