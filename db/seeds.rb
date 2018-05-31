@@ -7,8 +7,8 @@ require_relative '../app/models/nickname.rb'
 
 require 'pry'
 
-houses_url = "https://anapioficeandfire.com/api/houses?pageSize=5"
-characters_url = "https://anapioficeandfire.com/api/characters?pageSize=25"
+houses_url = "https://anapioficeandfire.com/api/houses?pageSize=100"
+characters_url = "https://anapioficeandfire.com/api/characters?pageSize=100"
 
 response = HTTParty.get(characters_url)
 parsed_response = response.parsed_response
@@ -24,22 +24,25 @@ house_parsed_response = house_response.parsed_response
   end
 
 
-  def make_character_array(parsed_response)
-    parsed_response.each do |individual_character|
-
-      if individual_character["name"] != ""
-        Character.create(name: individual_character["name"], gender: individual_character["gender"], culture: individual_character["culture"], born: individual_character["born"], died: individual_character["died"])
-      end
-    end
-  end
+#   def make_character_array(parsed_response)
+#     parsed_response.each do |individual_character|
+#
+#       if individual_character["name"] != ""
+#         binding.pry
+#         Character.create(name: individual_character["name"], gender: individual_character["gender"], culture: individual_character["culture"], born: individual_character["born"], died: individual_character["died"], character_id: strip_url(individual_character["url"])
+# )
+#       end
+#     end
+#   end
 
 
 
   def make_character_bio_array(parsed_response)
     parsed_response.each do |individual_character|
       if individual_character["name"] != ""
-        Character.create(name: individual_character["name"], gender: individual_character["gender"], culture: individual_character["culture"], born: individual_character["born"], died: individual_character["died"])
+        Character.create(name: individual_character["name"], gender: individual_character["gender"], culture: individual_character["culture"], born: individual_character["born"], died: individual_character["died"], character_id: strip_url(individual_character["url"]))
       end
+
     end
   end
 
@@ -73,7 +76,7 @@ house_parsed_response = house_response.parsed_response
 
           if member_array[0] == "swornMembers" && !member_array[1].empty?
             member_array[1].each do |individual_member|
-              
+
 
 
               #pass in house as House name as instance
@@ -93,12 +96,16 @@ house_parsed_response = house_response.parsed_response
           # binding.pry#
             return house_instance
         end
-
     end
   end
 
-  find_right_house("House Algood")
+  def strip_url(url)
+    url_num = url.split("/").last.to_i
+  end
 
+  strip_url("https://anapioficeandfire.com/api/characters/583")
+
+  find_right_house("House Algood")
 
   make_character_bio_array(parsed_response)
   make_character_nickname_array(parsed_response)
