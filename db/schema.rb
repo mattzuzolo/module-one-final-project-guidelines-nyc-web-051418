@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2018_05_31_144434) do
     t.string "culture"
     t.string "born"
     t.string "died"
+    t.string "url"
     t.integer "nickname_id"
   end
 
@@ -36,6 +37,7 @@ ActiveRecord::Schema.define(version: 2018_05_31_144434) do
 
   create_table "nicknames", force: :cascade do |t|
     t.string "aliases"
+    t.integer "character_id"
   end
 
 end

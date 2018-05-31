@@ -6,6 +6,7 @@ class CreateCharacters < ActiveRecord::Migration[5.1]
         t.string :culture
         t.string :born
         t.string :died
+        t.string :url
         # t.string :titles  #arrays??
         # t.string :books
     end

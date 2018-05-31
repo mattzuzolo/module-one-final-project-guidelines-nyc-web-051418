@@ -28,7 +28,7 @@ house_parsed_response = house_response.parsed_response
     parsed_response.each do |individual_character|
 
       if individual_character["name"] != ""
-        Character.create(name: individual_character["name"], gender: individual_character["gender"], culture: individual_character["culture"], born: individual_character["born"], died: individual_character["died"])
+        Character.create(name: individual_character["name"], gender: individual_character["gender"], culture: individual_character["culture"], born: individual_character["born"], died: individual_character["died"], url: individual_character["url"])
       end
     end
   end
@@ -48,10 +48,7 @@ house_parsed_response = house_response.parsed_response
       if individual_character["name"] != ""
         individual_character.each do |nickname|
           if nickname[0] == "aliases"
-          #  binding.pry
-            new_nickname = Nickname.create(aliases: nickname[1][0])
-            Character.create(nickname_id: new_nickname.id)
-            #binding.prys
+            new_nickname = Nickname.create(aliases: nickname[1][0], character_id: find_right_character(individual_character["name"]))
           end
         end
       end
@@ -63,7 +60,6 @@ house_parsed_response = house_response.parsed_response
   def make_house_array(house_parsed_response)
     house_parsed_response.each do |individual_house|
       House.create(name: individual_house["name"], region: individual_house["region"], coatOfArms: individual_house["coatOfArms"], words: individual_house["words"], currentLord: individual_house["currentLord"])
-
     end
   end
   #
@@ -73,13 +69,7 @@ house_parsed_response = house_response.parsed_response
 
           if member_array[0] == "swornMembers" && !member_array[1].empty?
             member_array[1].each do |individual_member|
-              
-
-
-              #pass in house as House name as instance
-              #create HouseMember.create
-              #find the house instance that correspondeds to the string values from the data
-              HouseMember.create(house: find_right_house(individual_house["name"]), sworn_member: individual_member)
+              HouseMember.create(house_id: find_right_house(individual_house["name"]), sworn_member: individual_member)
             end
           end
         end
@@ -87,18 +77,24 @@ house_parsed_response = house_response.parsed_response
   end
 
   def find_right_house(house_name_string)
-
     House.all.each do |house_instance|
         if house_instance.name == house_name_string
-          # binding.pry#
-            return house_instance
+            return house_instance.id
         end
-
     end
   end
 
-  find_right_house("House Algood")
+  def find_right_character(character_name_string)
+    Character.all.each do |character_instance|
+      if character_instance.name == character_name_string
+        return character_instance.id
+      end
+    end
+  end
 
+
+  find_right_character("Walder")
+  find_right_house("House Algood")
 
   make_character_bio_array(parsed_response)
   make_character_nickname_array(parsed_response)
