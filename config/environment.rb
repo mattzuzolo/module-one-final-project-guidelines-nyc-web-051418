@@ -8,6 +8,6 @@ ActiveRecord::Base.logger = nil
 # require_all 'db'
 
 require_relative '../app/models/character.rb'
-require_relative '../app/models/title.rb'
-require_relative '../app/models/nickname.rb'
 require_relative '../app/models/house.rb'
+require_relative '../app/models/house_member.rb'
+require_relative '../app/models/nickname.rb'
